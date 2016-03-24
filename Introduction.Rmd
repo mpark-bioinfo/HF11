@@ -1,5 +1,5 @@
 ---
-title: "HF11 Strain comparison lipidomics"
+title: "Lipidomics Analysis on High fat diet mice model"
 author: "Meeyoung Park"
 date: "March 24, 2016"
 output: html_document
@@ -9,11 +9,15 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Aims/hypothesis Patients with impaired glucose tolerance (IGT) are prone to developing peripheral neuropathy (PN), a common complication observed in diabetic patients. To investigate the mechanisms of PN in IGT, appropriate animal models are required. Using mice of various strains/backgrounds, our aim was to identify a model that developed an early and robust neuropathy when placed on a high-fat diet (HFD).
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Methods: Neuropathy development in six mouse strains/genotypes (BKS-wt, BKS-db/+, BL6-wt, BL6-db/+, BTBR-wt, BTBR-ob/+) fed a 54% HFD was investigated. Lipidomics data from nerve, liver, and plasma for each mouse strain were analyzed.
+
+Results: All HFD-fed mice developed PN; however, a more robust neuropathic phenotype consisting of large fiber dysfunction and small fiber degeneration occurred consistently in HFD-fed BL6-wt mice.   
+
+Conclusions/interpretation: We conclude that HFD-fed BL6-wt mice are a favorable model for investigating PN during a state of IGT.
 
 ```{r cars}
 summary(cars)
