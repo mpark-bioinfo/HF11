@@ -1,0 +1,61 @@
+---
+title: "Data Processing"
+author: "Meeyoung Park"
+date: "March 24, 2016"
+output: html_document
+---
+# HF11 Lipidomics Data Analysis
+
+```{r setup, include=FALSE}
+    ####Set R Session, Download Data and Explore XCMS results####
+    ## try http:// if https:// URLs are not supported
+    #source("https://bioconductor.org/biocLite.R")
+    #biocLite("xcms")
+    #install.packages("ggplot2")
+    #Prepare your R session
+    #library(xcms)
+    library(ggplot2)
+    library(reshape2)
+    #library(downloader)
+    library(gridExtra)
+
+    # read text file 
+    SCN_pos = read.delim("../Source/SCN_Pos_processed.txt", header = TRUE, sep = "\t")
+    SCN_neg = read.delim("../Source/SCN_Neg_processed.txt", header = TRUE, sep = "\t")
+    Plasma_pos = read.delim("../Source/Plasma_Pos_processed.txt", header = TRUE, sep = "\t")
+    Plasma_neg = read.delim("../Source/Plasma_Neg_processed.txt", header = TRUE, sep = "\t")
+    Liver_pos = read.delim("../Source/Liver_Pos_processed.txt", header = TRUE, sep = "\t")
+    Liver_neg = read.delim("../Source/Liver_Neg_processed.txt", header = TRUE, sep = "\t")
+```
+
+## Data Summary
+
+Summarized Data for SCN_Positive look like:
+```{r}
+summary(SCN_pos)
+```
+Summarized Data for SCN_Negative:
+```{r}
+summary(SCN_neg)
+```
+Summarized Data for Plasma_Positive:
+```{r}
+summary(Plasma_pos)
+```
+Summarized Data for Plasma_Negative:
+```{r}
+summary(Plasma_neg)
+```
+Summarized Data for Liver_Positive:
+```{r}
+summary(Liver_pos)
+```
+Summarized Data for Liver_Negative:
+```{r}
+summary(Liver_neg)
+```
+
+Done!
+
+
+
