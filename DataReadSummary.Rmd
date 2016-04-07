@@ -20,42 +20,24 @@ output: html_document
     library(gridExtra)
 
     # read text file 
-    SCN_pos = read.delim("../Source/SCN_Pos_processed.txt", header = TRUE, sep = "\t")
-    SCN_neg = read.delim("../Source/SCN_Neg_processed.txt", header = TRUE, sep = "\t")
-    Plasma_pos = read.delim("../Source/Plasma_Pos_processed.txt", header = TRUE, sep = "\t")
-    Plasma_neg = read.delim("../Source/Plasma_Neg_processed.txt", header = TRUE, sep = "\t")
-    Liver_pos = read.delim("../Source/Liver_Pos_processed.txt", header = TRUE, sep = "\t")
-    Liver_neg = read.delim("../Source/Liver_Neg_processed.txt", header = TRUE, sep = "\t")
+    SCN = read.delim("SCN_final.txt", header = TRUE, sep = "\t")
+    Plasma = read.delim("Plasma_final.txt", header = TRUE, sep = "\t")
+    Liver = read.delim("Liver_final.txt", header = TRUE, sep = "\t")
 ```
 
 ## Data Summary
 
 Summarized Data for SCN_Positive look like:
-```{r}
-summary(SCN_pos)
-```
-Summarized Data for SCN_Negative:
-```{r}
-summary(SCN_neg)
+```{r echo = FALSE}
+summary(SCN)
 ```
 Summarized Data for Plasma_Positive:
-```{r}
-summary(Plasma_pos)
-```
-Summarized Data for Plasma_Negative:
-```{r}
-summary(Plasma_neg)
+```{r  echo = FALSE}
+summary(Plasma)
 ```
 Summarized Data for Liver_Positive:
-```{r}
-summary(Liver_pos)
-```
-Summarized Data for Liver_Negative:
-```{r}
-summary(Liver_neg)
+```{r  echo = FALSE}
+summary(Liver)
 ```
 
 Done!
-
-
-

@@ -1,0 +1,11 @@
+CE
+DG
+lysoPC
+lysoPE
+MG
+PC
+PE
+plasmenyl-PC
+plasmenyl-PE
+SM
+TG

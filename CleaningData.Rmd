@@ -1,0 +1,72 @@
+---
+title: "FilteringLipids"
+author: "Meeyoung Park"
+date: "April 5, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+    library(ggplot2)
+
+```
+
+## Data Cleaning
+0. The normalized data from the Core are used to calculate CV. (manually done in excel)
+* CV = STDEV/AVERAGE * 100)
+* Column names: Name/CV/DataforSamples
+* Check if all sample column order and names are same! 
+* Output filename: "_Pos.txt", "_Neg.txt"
+
+1. Separate Name column to Lipid/Adduct/RT ("1_separated_lipid_name.pl")
+* Input filename: "_Pos.txt", "_Neg.txt"
+* Column names: Lipid/Adduct/RT/CV/DataforSamples
+* Output filename: "_LipidSeparated.txt"
+
+2. Remove redundant species - select the lesser CV ("2_RemoveDuplicateLipids.R")
+* Output filename: "_nonRedundant.txt"
+
+3. Separated Lipid column to Class/Carbon/Saturation ("3_extract_lipid_class.pl")
+* Input filename: "_nonRedundant.txt"
+* Column names: "Class/Carbon/Saturation/CV/DataforSamples
+* Output filename: "_LipidClass.txt"
+
+4. Remove odd chain species ("4_RemoveOddChain.R")
+* Input filename: "_LipidClass.txt"
+* Check even number in saturation column for animals
+* Output filename: "*_noOdd.txt"
+
+5. Remove unrelated class in each polar group and combine them ("5_ExtractRelavantClass.R")
+* Refer to the positive/negative list of lipid class
+* Input filename: "*_noOdd.txt"
+* Output filename: "*_final.txt"
+
+7. Final processed lipid data
+```{r echo = FALSE}
+    #dim(temp_lipidset)
+```
+
+Complete!
+```{r setup, include=FALSE}
+    summary(SCN_pos)
+
+```
+
+## Data Cleaning
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
