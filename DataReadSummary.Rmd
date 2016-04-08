@@ -10,24 +10,24 @@ output: html_document
     ####Set R Session, Download Data and Explore XCMS results####
     ## try http:// if https:// URLs are not supported
     #source("https://bioconductor.org/biocLite.R")
-    #biocLite("xcms")
-    #install.packages("ggplot2")
+    install.packages("ggplot2")
+    install.packages("heatmap3")
     #Prepare your R session
-    #library(xcms)
     library(ggplot2)
+    library(heatmap3)
     library(reshape2)
     #library(downloader)
     library(gridExtra)
 
     # read text file 
-    SCN = read.delim("SCN_final.txt", header = TRUE, sep = "\t")
-    Plasma = read.delim("Plasma_final.txt", header = TRUE, sep = "\t")
-    Liver = read.delim("Liver_final.txt", header = TRUE, sep = "\t")
+    SCN = read.delim("./StatisticalAnalysis/SCN_final.txt", header = TRUE, sep = "\t")
+    Plasma = read.delim("./StatisticalAnalysis/Plasma_final.txt", header = TRUE, sep = "\t")
+    Liver = read.delim("./StatisticalAnalysis/Liver_final.txt", header = TRUE, sep = "\t")
 ```
 
 ## Data Summary
 
-Summarized Data for SCN_Positive look like:
+Summarized Data for SCN_Positive:
 ```{r echo = FALSE}
 summary(SCN)
 ```
@@ -39,5 +39,7 @@ Summarized Data for Liver_Positive:
 ```{r  echo = FALSE}
 summary(Liver)
 ```
+## BL/6 Summary
+### Lipid Mass Distribution
 
 Done!

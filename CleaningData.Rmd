@@ -1,5 +1,5 @@
 ---
-title: "FilteringLipids"
+title: "Filtering Non-informative Lipids"
 author: "Meeyoung Park"
 date: "April 5, 2016"
 output: html_document
@@ -7,10 +7,9 @@ output: html_document
 
 ```{r setup, include=FALSE}
     library(ggplot2)
-
 ```
 
-## Data Cleaning
+### Data Cleaning
 0. The normalized data from the Core are used to calculate CV. (manually done in excel)
 * CV = STDEV/AVERAGE * 100)
 * Column names: Name/CV/DataforSamples
@@ -40,33 +39,25 @@ output: html_document
 * Input filename: "*_noOdd.txt"
 * Output filename: "*_final.txt"
 
-7. Final processed lipid data
+7. 
 ```{r echo = FALSE}
-    #dim(temp_lipidset)
+        SCN = read.delim("./StatisticalAnalysis/SCN_final.txt", header = TRUE, sep = "\t")
+    Plasma = read.delim("./StatisticalAnalysis/Plasma_final.txt", header = TRUE, sep = "\t")
+    Liver = read.delim("./StatisticalAnalysis/Liver_final.txt", header = TRUE, sep = "\t")
+```
+### Final processed lipid data summary
+
+SCN:
+```{r echo = FALSE}
+dim(SCN)
+```
+Plasma:
+```{r  echo = FALSE}
+dim(Plasma)
+```
+Liver:
+```{r  echo = FALSE}
+dim(Liver)
 ```
 
-Complete!
-```{r setup, include=FALSE}
-    summary(SCN_pos)
-
-```
-
-## Data Cleaning
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Done!
