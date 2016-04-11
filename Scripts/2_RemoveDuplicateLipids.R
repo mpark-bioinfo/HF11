@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # Meeyoung Park, 04/07/2016
-# Command: Rscript <filename>
+# Command: Rscript <filename> <Outdir>
 # Input: First column should be "Lipid" species: class + carbon chain info (TG 41:2)
 # Process: Check if there are redundant lipids in the file
 # Output: Removing all redundant lipids: "*_nonRedundant.txt"
@@ -18,7 +18,7 @@ dupl_set <- duplicated(sorted_LipidData$Lipid)
 nonRedundant_idx <- which(dupl_set == FALSE)
 new_LipidData <- sorted_LipidData[nonRedundant_idx,]
 name_temp <-  strsplit(args[1], "/")
-tmp <- strsplit(name_temp[[1]][3], "\\.") #Check the position of file name
+tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
 filename <- strsplit(tmp[[1]][1], "\\_")
-new_out <- paste(filename[[1]][1],"_nonRedundant.txt", sep="")
+new_out <- paste(args[2],filename[[1]][1],"_nonRedundant.txt", sep="")
 write.table(new_LipidData, new_out, append = FALSE, quote = FALSE, row.names=FALSE, sep="\t") 

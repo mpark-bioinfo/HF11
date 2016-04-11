@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # Meeyoung Park, 04/07/2016
-# Command: Rscript <pos_filename> <pos_filename>
+# Command: Rscript <pos_filename> <neg_filename>
 # Input: "_noOdd.txt"
 # Process: Check if there are non-relavant lipid class from each polar
 #         and combine pos & neg lipids in a file
@@ -10,9 +10,10 @@
 args = commandArgs(TRUE)
 print(args[1])
 # Read data file
-name_temp <-  strsplit(args[1], "_")
-tissue_name <- name_temp[[1]][1]
-out_filename <- paste(tissue_name,"_final.txt", sep="")
+name_temp <-  strsplit(args[1], "/")
+tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
+filename <- strsplit(tmp[[1]][1], "\\_")
+new_out <- paste(args[3],filename[[1]][1],"_Final.txt", sep="")
 
 positiveLipid <- data.frame()
 negativeLipid <- data.frame()
@@ -47,4 +48,4 @@ pos_Data <- pos_ordered[new_pos_match,]
 neg_Data <- neg_ordered[new_neg_match,]
 all_lipid_data <- rbind(pos_Data,neg_Data)
 
-write.table(all_lipid_data, out_filename, append = FALSE, quote = FALSE, row.names=FALSE, sep="\t")
+write.table(all_lipid_data, new_out, append = FALSE, quote = FALSE, row.names=FALSE, sep="\t")

@@ -1,0 +1,20 @@
+ dim(SCNNewLipidData30)
+[1] 245  54
+> dim(SCNNewLipidData40)
+[1] 287  54
+> dim(SCNNewLipidData50)
+[1] 301  54
+
+> dim(LiverNewLipidData30)
+[1] 361  54
+> dim(LiverNewLipidData40)
+[1] 399  54
+> dim(LiverNewLipidData50)
+[1] 415  54
+
+> dim(PlasmaNewLipidData30)
+[1] 198  54
+> dim(PlasmaNewLipidData40)
+[1] 236  54
+> dim(PlasmaNewLipidData50)
+[1] 265  54

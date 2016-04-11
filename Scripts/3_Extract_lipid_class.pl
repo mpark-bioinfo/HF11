@@ -5,17 +5,17 @@ use warnings;
 use strict;
 
 #input gene files: symbol
-my $baseDir = 'C:/Users/Meeyoung/Dropbox/HF11_LipidomicsStudy/HF11/Data_Preprocessing/';
-my $outDir = 'C:/Users/Meeyoung/Dropbox/HF11_LipidomicsStudy/HF11/Data_Preprocessing/';
+my $inDir = $ARGV[0];	#'C:/Users/Meeyoung/Dropbox/HF11_LipidomicsStudy/HF11/Data_Preprocessing/';
+my $outDir = $ARGV[1]; #'C:/Users/Meeyoung/Dropbox/HF11_LipidomicsStudy/HF11/Data_Preprocessing/';
 
-my @InFileNames	= glob ($baseDir."*_nonRedundant.txt");
+my @InFileNames	= glob ($inDir."*_nonRedundant.txt");
 
 foreach my $inFile (@InFileNames)
 {
 
 	my @tmp1 = split (/\//, $inFile);
 	my @tmp2 = split (/\.txt/, $tmp1[$#tmp1]);
-	my $tmpOutFile1	= $outDir."/".$tmp2[0]."_LipidClass.txt";
+	my $tmpOutFile1	= $outDir."/".$tmp2[0]."_Class.txt";
 
 	open (OUTFILE, ">".$tmpOutFile1);
 	open (INFILE, $inFile);
@@ -26,7 +26,7 @@ foreach my $inFile (@InFileNames)
 			my $lipid = "";
 			my $class = "";
 			my $carbon = "";
-			my $chain = "";
+			my $bond = "";
 			
 			my $line = $_;
 			$line =~ s/\r|\n//g;
@@ -40,7 +40,7 @@ foreach my $inFile (@InFileNames)
 			}
 			elsif ($lipid_name eq "Lipid")	#header
 			{
-				print OUTFILE "Class"."\t"."Carbon"."\t"."Saturation";
+				print OUTFILE "Class"."\t"."Carbon_Chain"."\t"."Double_Bond";
 				    for (my $i=1; $i <= $#tmpSplit; $i++) {
 						print OUTFILE "\t".$tmpSplit[$i];
 					}				
@@ -58,8 +58,8 @@ foreach my $inFile (@InFileNames)
 					$class =~ s/\r|\n//g;
 					$carbon = $carbon_info[1];
 					$carbon =~ s/\r|\n//g;
-					$chain = $carbon_info[2];
-					$chain =~ s/\r|\n//g;
+					$bond = $carbon_info[2];
+					$bond =~ s/\r|\n//g;
 				}
 				else
 				{
@@ -70,15 +70,15 @@ foreach my $inFile (@InFileNames)
 					$class =~ s/\r|\n//g;
 					$carbon = $temp2[1];
 					$carbon =~ s/\r|\n//g;
-					$chain = $carbon_info[1];
-					$chain =~ s/\r|\n//g;
+					$bond = $carbon_info[1];
+					$bond =~ s/\r|\n//g;
 				}			
 				
 				#$adduct = $lipid_info[1];
 				#$adduct =~ s/\r|\n//g;
 				#$rt = $lipid_info[2];
 				#$rt =~ s/\r|\n//g;
-				print OUTFILE $class."\t".$carbon."\t".$chain;
+				print OUTFILE $class."\t".$carbon."\t".$bond;
 				    for (my $i=1; $i <= $#tmpSplit; $i++) {
 						print OUTFILE "\t".$tmpSplit[$i];
 					}

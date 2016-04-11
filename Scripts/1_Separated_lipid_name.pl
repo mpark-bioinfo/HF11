@@ -1,12 +1,14 @@
 #!/usr/bin/perl
 
 # Meeyoung Park, 04/07/2016
+#Usage: perl <Script_name> <InDir> <OutDir>
+
 use warnings;
 use strict;
 
 #input gene files: symbol
-my $inDir = 'C:/Users/Meeyoung/Dropbox/HF11_LipidomicsStudy/HF11/Data_Preprocessing/';
-my $outDir = 'C:/Users/Meeyoung/Dropbox/HF11_LipidomicsStudy/HF11/Data_Preprocessing/';
+my $inDir = $ARGV[0];	#'C:/Users/Meeyoung/Dropbox/HF11_LipidomicsStudy/HF11/Data_Preprocessing/';
+my $outDir = $ARGV[1]; #'C:/Users/Meeyoung/Dropbox/HF11_LipidomicsStudy/HF11/Data_Preprocessing/';
 
 my @InFileNames	= glob ($inDir."*.txt");
 
@@ -15,7 +17,7 @@ foreach my $inFile (@InFileNames)
 
 	my @tmp1 = split (/\//, $inFile);
 	my @tmp2 = split (/\.txt/, $tmp1[$#tmp1]);
-	my $tmpOutFile1	= $outDir."/".$tmp2[0]."_LipidSeparated.txt";
+	my $tmpOutFile1	= $outDir."/".$tmp2[0]."_Lipid.txt";
 
 	open (OUTFILE, ">".$tmpOutFile1);
 	open (INFILE, $inFile);
@@ -62,7 +64,8 @@ foreach my $inFile (@InFileNames)
 		
 					
 	}
-	print "Complete!";
+	
 	close INFILE;	
 	close OUTFILE;
 }
+print "Complete!";
