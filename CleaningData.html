@@ -118,21 +118,21 @@ $(document).ready(function () {
 <div id="data-cleaning" class="section level3">
 <h3>Data Cleaning</h3>
 <ol start="0" style="list-style-type: decimal">
-<li>The normalized data from the Core are used to calculate CV. (manually done in excel)</li>
+<li>The normalized data done by Core were used to calculate CV. (manually done in excel)</li>
 </ol>
 <ul>
-<li>CV = STDEV/AVERAGE * 100)</li>
-<li>Column names: Name/CV/DataforSamples</li>
+<li>CV = STDEV/AVERAGE * 100</li>
+<li>Column names: Name/CV/Intensity for samples</li>
 <li>Check if all sample column order and names are same!</li>
-<li>Output filename: “_Pos.txt“,”_Neg.txt&quot;</li>
+<li>Output filename: “_Pos.txt&quot;</li>
 </ul>
 <ol style="list-style-type: decimal">
 <li>Separate Name column to Lipid/Adduct/RT (“1_separated_lipid_name.pl”)</li>
 </ol>
 <ul>
-<li>Input filename: “_Pos.txt“,”_Neg.txt&quot;</li>
+<li>Input filename: “_Pos.txt&quot;</li>
 <li>Column names: Lipid/Adduct/RT/CV/DataforSamples</li>
-<li>Output filename: “_LipidSeparated.txt&quot;</li>
+<li>Output filename: “_Lipid.txt&quot;</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li>Remove redundant species - select the lesser CV (“2_RemoveDuplicateLipids.R”)</li>
@@ -146,7 +146,7 @@ $(document).ready(function () {
 <ul>
 <li>Input filename: “_nonRedundant.txt&quot;</li>
 <li>Column names: “Class/Carbon/Saturation/CV/DataforSamples</li>
-<li>Output filename: “_LipidClass.txt&quot;</li>
+<li>Output filename: “_nonRedundant_Class.txt&quot;</li>
 </ul>
 <ol start="4" style="list-style-type: decimal">
 <li>Remove odd chain species (“4_RemoveOddChain.R”)</li>

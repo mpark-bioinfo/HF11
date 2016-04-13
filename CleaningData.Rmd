@@ -2,7 +2,7 @@
 title: "Filtering Non-informative Lipids"
 author: "Meeyoung Park"
 date: "April 5, 2016"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -10,16 +10,15 @@ output: html_document
 ```
 
 ### Data Cleaning
-0. The normalized data from the Core are used to calculate CV. (manually done in excel)
-* CV = STDEV/AVERAGE * 100)
-* Column names: Name/CV/DataforSamples
+Data normalization done by MCR2 Core were used to calculate CV. (manually done in excel)
+* Column names: Name/CV/Intensity for samples
 * Check if all sample column order and names are same! 
-* Output filename: "_Pos.txt", "_Neg.txt"
+* Output filename: "_Pos.txt"
 
 1. Separate Name column to Lipid/Adduct/RT ("1_separated_lipid_name.pl")
-* Input filename: "_Pos.txt", "_Neg.txt"
+* Input filename: "_Pos.txt"
 * Column names: Lipid/Adduct/RT/CV/DataforSamples
-* Output filename: "_LipidSeparated.txt"
+* Output filename: "_Lipid.txt"
 
 2. Remove redundant species - select the lesser CV ("2_RemoveDuplicateLipids.R")
 * Output filename: "_nonRedundant.txt"
@@ -27,7 +26,7 @@ output: html_document
 3. Separated Lipid column to Class/Carbon/Saturation ("3_extract_lipid_class.pl")
 * Input filename: "_nonRedundant.txt"
 * Column names: "Class/Carbon/Saturation/CV/DataforSamples
-* Output filename: "_LipidClass.txt"
+* Output filename: "_nonRedundant_Class.txt"
 
 4. Remove odd chain species ("4_RemoveOddChain.R")
 * Input filename: "_LipidClass.txt"
@@ -41,9 +40,9 @@ output: html_document
 
 7. 
 ```{r echo = FALSE}
-        SCN = read.delim("./StatisticalAnalysis/SCN_final.txt", header = TRUE, sep = "\t")
-    Plasma = read.delim("./StatisticalAnalysis/Plasma_final.txt", header = TRUE, sep = "\t")
-    Liver = read.delim("./StatisticalAnalysis/Liver_final.txt", header = TRUE, sep = "\t")
+        SCN = read.delim("./Final_Analysis_Apr/Quality_Control/SCNPos_final.txt", header = TRUE, sep = "\t")
+    Plasma = read.delim("./Final_Analysis_Apr/Quality_Control/PlasmaPos_final.txt", header = TRUE, sep = "\t")
+    Liver = read.delim("./Final_Analysis_Apr/Quality_Control/LiverPos_final.txt", header = TRUE, sep = "\t")
 ```
 ### Final processed lipid data summary
 
