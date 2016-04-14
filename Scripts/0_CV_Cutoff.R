@@ -14,9 +14,14 @@ print(args[1])
 cutoff <- 30
 
 # Read input file
-LipidData = read.csv(args[1], header = TRUE, sep = ",")
-SampleName <- LipidData$Sample
+lipid_data = read.csv(args[1], header = TRUE, sep = ",")
+#lipid_data = read.csv("../Normalization/SCNPos/SCNPos_imputed.csv", header = TRUE, sep = ",")
 
+# Exclude internal standards
+is_lipid_idx <- grep("IS", lipid_data$Sample)
+LipidData <- lipid_data[-is_lipid_idx, ] 
+
+# Calculate CV
 TestPool <- LipidData[, 50:length(LipidData)]
 sd_test <- data.frame(apply(TestPool,1, sd))
 colnames(sd_test) <- 'SD'
