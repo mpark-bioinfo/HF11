@@ -2,30 +2,31 @@
 
 # Meeyoung Park, 04/07/2016
 # Command: Rscript <filename> <Outdir>
-# Input: First column should be "Lipid" species: class + carbon chain info (TG 41:2)
+# Input: _Lipid.csv (First column should be "Lipid" species: class + carbon chain info (TG 41:2))
 # Process: Check if there are redundant lipids in the file
 # Output: Removing all redundant lipids: "*_nonRedundant.txt"
 
 args = commandArgs(TRUE)
 print(args[1])
 # Read data file
-LipidData <- read.csv("../Normalization/SCNPos_Lipid.csv", header = TRUE, sep = ",")
+#LipidData <- read.csv("../Normalization/SCNPos_Lipid.csv", header = TRUE, sep = ",")
+LipidData <- read.csv(args[1], header = TRUE, sep = ",")
 
 # Calculate CV
 LipidName <- LipidData$Lipid
 AdductName <- LipidData$Adduct
 IntensityData <- LipidData[,3:50]
-TestPool <- LipidData[, 51:length(LipidData)]
-sd_test <- data.frame(apply(TestPool,1, sd))
+qc_sample <- LipidData[, 51:length(LipidData)]
+
+# Calculate CV using qc samples
+sd_test <- data.frame(apply(qc_sample,1, sd))
 colnames(sd_test) <- 'SD'
-mean_test <- data.frame(rowMeans(TestPool))
+mean_test <- data.frame(rowMeans(qc_sample))
 colnames(mean_test) <- 'Mean'
 RSD <- data.frame('CV' = as.numeric(sd_test$SD)/as.numeric(mean_test$Mean) * 100)
-#colnames(RSD) <- 'CV';
-LipidDataCV <- data.frame(LipidData,RSD)
-colnames(LipidDataCV)
-LipidDataCV$
+
 # Sort by CV
+LipidDataCV <- data.frame(LipidData,RSD)
 sorted_LipidData <- LipidDataCV[order(LipidDataCV$CV),] 
 # Check duplicate lipids
 dupl_set <- duplicated(sorted_LipidData$Lipid)
