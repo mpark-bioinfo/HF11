@@ -5,9 +5,10 @@
 # Input: "_.csv"
 # Process: Grouping by strains
 # Output: "Strain.csv"
-
+install.packages('gridExtra')
 library(plyr)
 library(ggplot2)
+library(gridExtra)
 
 # Grouping by strains
 args = commandArgs(TRUE)
@@ -71,12 +72,30 @@ SCN_grouped <- ddply(separatedData_SCN, "Class", summarise,
                se   = sd / sqrt(N)
 );
 
+# Grouping by class
+Liver_grouped <- ddply(separatedData_Liver, "Class", summarise,
+                     N    = length(logFC),
+                     mean = mean(logFC),
+                     sd   = sd(logFC),
+                     se   = sd / sqrt(N)
+);
 
-ggplot(SCN_grouped, aes(x = x, y = mean)) + geom_bar()
-ggplot(SCN_grouped, aes(x = SCN_grouped$Class, y = y)) +
-  geom_point() +
-  geom_point(data = mean, aes(y = mean),
-             colour = 'red', size = 3)
+Plasma_grouped <- ddply(separatedData_Plasma, "Class", summarise,
+                       N    = length(logFC),
+                       mean = mean(logFC),
+                       sd   = sd(logFC),
+                       se   = sd / sqrt(N)
+);
+
+tiff('SCN_lipid_class.tiff')
+ggplot(SCN_grouped, aes(x = Class, y = mean,fill=factor(Class))) + geom_bar(stat = "identity",show.legend = FALSE) + scale_fill_manual(values=c("#CC0000", "#006600", "#669999", "#00CCCC", "#660099", "#CC0066", "#FF9999", "#FF9900", "black", "black", "black", "black", "black", "black", "black")) + scale_y_continuous("Log Fold-change",limits=c(-1,1)) + scale_x_discrete("Class")
+dev.off()
+tiff('Liver_lipid_class.tiff')
+ggplot(Liver_grouped, aes(x = factor(Class), y = mean)) + geom_bar(stat = "identity",show.legend = FALSE) 
+dev.off()
+tiff('Plasma_lipid_class.tiff')
+ggplot(Plasma_grouped, aes(x = factor(Class), y = mean)) + geom_bar(stat = "identity",show.legend = FALSE) 
+dev.off()
 # Output file name
 name_temp <-  strsplit(args[1], "/")
 tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
