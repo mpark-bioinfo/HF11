@@ -5,7 +5,7 @@
 # Input: "_.csv"
 # Process: Grouping by strains
 # Output: "Strain.csv"
-install.packages('gridExtra')
+
 library(plyr)
 library(ggplot2)
 library(gridExtra)
@@ -28,6 +28,11 @@ Liver_Ctrl_BKS <- Liver_LipidData[, c('Ctrl_BKS_2202', 'Ctrl_BKS_2203', 'Ctrl_BK
 Liver_HF_BKS <- Liver_LipidData[, c('HF_BKS_2214', 'HF_BKS_2216', 'HF_BKS_2217', 'HF_BKS_2218')]
 Plasma_Ctrl_BKS <- Plasma_LipidData[, c('Ctrl_BKS_2202', 'Ctrl_BKS_2203', 'Ctrl_BKS_2206', 'Ctrl_BKS_2211')]
 Plasma_HF_BKS <- Plasma_LipidData[, c('HF_BKS_2214', 'HF_BKS_2216', 'HF_BKS_2217', 'HF_BKS_2218')]
+
+SCN_BKS_WT <- data.frame(SCN_Ctrl_BKS,SCN_HF_BKS)
+boxplot(log2(SCN_BKS_WT),las = 2,col = c('deepskyblue','lightskyblue','skyblue','skyblue4','orangered','red','indianred1','darkred')) 
+ggplot(dfs, aes(x=values)) + geom_density(aes(group=ind, colour=ind, fill=ind), alpha=0.3)
+
 
 mean.ctrl.SCN <- rowMeans(SCN_Ctrl_BKS)
 mean.hf.SCN <- rowMeans(SCN_HF_BKS)
