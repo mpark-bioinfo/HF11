@@ -5,7 +5,7 @@
 # Input: "_.csv"
 # Process: Grouping by strains
 # Output: "Strain.csv"
-install.packages('gridExtra')
+#install.packages('gridExtra')
 library(plyr)
 library(ggplot2)
 library(gridExtra)
@@ -14,34 +14,34 @@ library(gridExtra)
 args = commandArgs(TRUE)
 print(args[1])
 #NewLipidData = read.csv(args[1], header = TRUE, sep = ",")
-SCN_LipidData = read.csv('../Normalization/Final_SCN/SCN_WT_BKS.csv', header = TRUE, sep = ",")
-Liver_LipidData = read.csv('../Normalization/Final_Liver/Liver_WT_BKS.csv', header = TRUE, sep = ",")
-Plasma_LipidData = read.csv('../Normalization/Final_Plasma/Plasma_WT_BKS.csv', header = TRUE, sep = ",")
+#SCN_LipidData = read.csv('../Normalization/Final_SCN/SCN_WT_BTBR.csv', header = TRUE, sep = ",")
+#Liver_LipidData = read.csv('../Normalization/Final_Liver/Liver_WT_BTBR.csv', header = TRUE, sep = ",")
+#Plasma_LipidData = read.csv('../Normalization/Final_Plasma/Plasma_WT_BTBR.csv', header = TRUE, sep = ",")
 SCN_LipidData = read.csv(args[1], header = TRUE, sep = ",")
 Liver_LipidData = read.csv(args[2], header = TRUE, sep = ",")
 Plasma_LipidData = read.csv(args[3], header = TRUE, sep = ",")
 
 # Get FC
-SCN_Ctrl_BKS <- SCN_LipidData[, c('Ctrl_BKS_2202', 'Ctrl_BKS_2203', 'Ctrl_BKS_2206', 'Ctrl_BKS_2211')]
-SCN_HF_BKS <- SCN_LipidData[, c('HF_BKS_2214', 'HF_BKS_2216', 'HF_BKS_2217', 'HF_BKS_2218')]
-Liver_Ctrl_BKS <- Liver_LipidData[, c('Ctrl_BKS_2202', 'Ctrl_BKS_2203', 'Ctrl_BKS_2206', 'Ctrl_BKS_2211')]
-Liver_HF_BKS <- Liver_LipidData[, c('HF_BKS_2214', 'HF_BKS_2216', 'HF_BKS_2217', 'HF_BKS_2218')]
-Plasma_Ctrl_BKS <- Plasma_LipidData[, c('Ctrl_BKS_2202', 'Ctrl_BKS_2203', 'Ctrl_BKS_2206', 'Ctrl_BKS_2211')]
-Plasma_HF_BKS <- Plasma_LipidData[, c('HF_BKS_2214', 'HF_BKS_2216', 'HF_BKS_2217', 'HF_BKS_2218')]
+SCN_Ctrl <- SCN_LipidData[, 2:5]
+SCN_HF <- SCN_LipidData[, 6:9]
+Liver_Ctrl <- Liver_LipidData[, 2:5]
+Liver_HF <- Liver_LipidData[, 6:9]
+Plasma_Ctrl <- Plasma_LipidData[,  2:5]
+Plasma_HF <- Plasma_LipidData[, 6:9]
 
-mean.ctrl.SCN <- rowMeans(SCN_Ctrl_BKS)
-mean.hf.SCN <- rowMeans(SCN_HF_BKS)
-SCN_FC <- mean.ctrl.SCN/mean.hf.SCN
+mean.ctrl.SCN <- rowMeans(SCN_Ctrl)
+mean.hf.SCN <- rowMeans(SCN_HF)
+SCN_FC <- mean.hf.SCN/mean.ctrl.SCN
 log_SCN_FC <- data.frame(log2(SCN_FC))
 
-mean.ctrl.Liver <- rowMeans(Liver_Ctrl_BKS)
-mean.hf.Liver <- rowMeans(Liver_HF_BKS)
-Liver_FC <- mean.ctrl.Liver/mean.hf.Liver
+mean.ctrl.Liver <- rowMeans(Liver_Ctrl)
+mean.hf.Liver <- rowMeans(Liver_HF)
+Liver_FC <- mean.hf.Liver/mean.ctrl.Liver
 log_Liver_FC <- data.frame(log2(Liver_FC))
 
-mean.ctrl.Plasma <- rowMeans(Plasma_Ctrl_BKS)
-mean.hf.Plasma <- rowMeans(Plasma_HF_BKS)
-Plasma_FC <- mean.ctrl.Plasma/mean.hf.Plasma
+mean.ctrl.Plasma <- rowMeans(Plasma_Ctrl)
+mean.hf.Plasma <- rowMeans(Plasma_HF)
+Plasma_FC <- mean.hf.Plasma/mean.ctrl.Plasma
 log_Plasma_FC <- data.frame(log2(Plasma_FC))
 
 # Separate lipid class
@@ -87,17 +87,51 @@ Plasma_grouped <- ddply(separatedData_Plasma, "Class", summarise,
                        se   = sd / sqrt(N)
 );
 
-tiff('SCN_lipid_class.tiff')
-ggplot(SCN_grouped, aes(x = Class, y = mean,fill=factor(Class))) + geom_bar(stat = "identity",show.legend = FALSE) + scale_fill_manual(values=c("#CC0000", "#006600", "#669999", "#00CCCC", "#660099", "#CC0066", "#FF9999", "#FF9900", "black", "black", "black", "black", "black", "black", "black")) + scale_y_continuous("Log Fold-change",limits=c(-1,1)) + scale_x_discrete("Class")
-dev.off()
-tiff('Liver_lipid_class.tiff')
-ggplot(Liver_grouped, aes(x = factor(Class), y = mean)) + geom_bar(stat = "identity",show.legend = FALSE) 
-dev.off()
-tiff('Plasma_lipid_class.tiff')
-ggplot(Plasma_grouped, aes(x = factor(Class), y = mean)) + geom_bar(stat = "identity",show.legend = FALSE) 
-dev.off()
 # Output file name
+
 name_temp <-  strsplit(args[1], "/")
 tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
 tissue_name <- strsplit(tmp[[1]][1], "\\_")
-write.csv(BTBR_db, new_out, row.names=FALSE)
+filename1 <- paste(tissue_name[[1]][1],tissue_name[[1]][2],tissue_name[[1]][3],'lipid_class', sep="_")
+write.csv(SCN_grouped, paste(filename1,'.csv',sep = ""), row.names=FALSE)
+tiff(paste(filename1,'.tiff',sep = ""))
+ggplot(SCN_grouped, aes(x = Class, y = mean,fill=factor(Class))) +
+    geom_bar(stat = "identity",show.legend = FALSE) + 
+    xlab("Class") + ylab("Log2 Fold-change") +
+    scale_x_discrete("Class") +
+    scale_y_continuous(limits = c(-1, 1)) + theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+dev.off()
+
+name_temp <-  strsplit(args[2], "/")
+tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
+tissue_name <- strsplit(tmp[[1]][1], "\\_")
+filename1 <- paste(tissue_name[[1]][1],tissue_name[[1]][2],tissue_name[[1]][3],'lipid_class', sep="_")
+write.csv(Liver_grouped, paste(filename2,'.csv',sep = ""), row.names=FALSE)
+tiff(paste(filename2,'.tiff',sep = ""))
+ggplot(Liver_grouped, aes(x = Class, y = mean,fill=factor(Class))) +
+  geom_bar(stat = "identity",show.legend = FALSE) + 
+  xlab("Class") + ylab("Log2 Fold-change") +
+  scale_x_discrete("Class") +
+  scale_y_continuous(limits = c(-1, 1)) + theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+dev.off()
+
+name_temp <-  strsplit(args[3], "/")
+tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
+tissue_name <- strsplit(tmp[[1]][1], "\\_")
+filename1 <- paste(tissue_name[[1]][1],tissue_name[[1]][2],tissue_name[[1]][3],'lipid_class', sep="_")
+write.csv(Plasma_grouped, paste(filename3,'.csv',sep = ""), row.names=FALSE)
+tiff(paste(filename3,'.tiff',sep = ""))
+ggplot(Plasma_grouped, aes(x = Class, y = mean,fill=factor(Class))) +
+  geom_bar(stat = "identity",show.legend = FALSE) + 
+  xlab("Class") + ylab("Log2 Fold-change") +
+  scale_x_discrete("Class") +
+  scale_y_continuous(limits = c(-1, 1)) + theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+dev.off()
+# Output file name
+#name_temp <-  strsplit(args[1], "/")
+#tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
+#tissue_name <- strsplit(tmp[[1]][1], "\\_")
+#write.csv(BL6_db, new_out, row.names=FALSE)
