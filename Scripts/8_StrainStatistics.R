@@ -5,7 +5,11 @@
 # Input: "_.csv"
 # Process: Grouping by strains
 # Output: "Strain.csv"
+<<<<<<< HEAD
 #install.packages('gridExtra')
+=======
+
+>>>>>>> 81fbef7f5b3a78443f86ca876b472e856525db08
 library(plyr)
 library(ggplot2)
 library(gridExtra)
@@ -22,12 +26,24 @@ Liver_LipidData = read.csv(args[2], header = TRUE, sep = ",")
 Plasma_LipidData = read.csv(args[3], header = TRUE, sep = ",")
 
 # Get FC
+
 SCN_Ctrl <- SCN_LipidData[, 2:5]
 SCN_HF <- SCN_LipidData[, 6:9]
 Liver_Ctrl <- Liver_LipidData[, 2:5]
 Liver_HF <- Liver_LipidData[, 6:9]
 Plasma_Ctrl <- Plasma_LipidData[,  2:5]
 Plasma_HF <- Plasma_LipidData[, 6:9]
+
+#SCN_Ctrl_BKS <- SCN_LipidData[, c('Ctrl_BKS_2202', 'Ctrl_BKS_2203', 'Ctrl_BKS_2206', 'Ctrl_BKS_2211')]
+#SCN_HF_BKS <- SCN_LipidData[, c('HF_BKS_2214', 'HF_BKS_2216', 'HF_BKS_2217', 'HF_BKS_2218')]
+#Liver_Ctrl_BKS <- Liver_LipidData[, c('Ctrl_BKS_2202', 'Ctrl_BKS_2203', 'Ctrl_BKS_2206', 'Ctrl_BKS_2211')]
+#Liver_HF_BKS <- Liver_LipidData[, c('HF_BKS_2214', 'HF_BKS_2216', 'HF_BKS_2217', 'HF_BKS_2218')]
+#Plasma_Ctrl_BKS <- Plasma_LipidData[, c('Ctrl_BKS_2202', 'Ctrl_BKS_2203', 'Ctrl_BKS_2206', 'Ctrl_BKS_2211')]
+#Plasma_HF_BKS <- Plasma_LipidData[, c('HF_BKS_2214', 'HF_BKS_2216', 'HF_BKS_2217', 'HF_BKS_2218')]
+
+#SCN_BKS_WT <- data.frame(SCN_Ctrl_BKS,SCN_HF_BKS)
+#boxplot(log2(SCN_BKS_WT),las = 2,col = c('deepskyblue','lightskyblue','skyblue','skyblue4','orangered','red','indianred1','darkred')) 
+#ggplot(dfs, aes(x=values)) + geom_density(aes(group=ind, colour=ind, fill=ind), alpha=0.3)
 
 mean.ctrl.SCN <- rowMeans(SCN_Ctrl)
 mean.hf.SCN <- rowMeans(SCN_HF)
