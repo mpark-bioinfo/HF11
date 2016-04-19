@@ -9,7 +9,6 @@
 #install.packages('gridExtra')
 =======
 
->>>>>>> 81fbef7f5b3a78443f86ca876b472e856525db08
 library(plyr)
 library(ggplot2)
 library(gridExtra)
@@ -18,17 +17,21 @@ library(gridExtra)
 args = commandArgs(TRUE)
 print(args[1])
 #NewLipidData = read.csv(args[1], header = TRUE, sep = ",")
-#SCN_LipidData = read.csv('../Normalization/Final_SCN/SCN_WT_BTBR.csv', header = TRUE, sep = ",")
+SCN_LipidData = read.csv('../Normalization/Final_SCN/SCN_WT_BKS.csv', header = TRUE, sep = ",")
 #Liver_LipidData = read.csv('../Normalization/Final_Liver/Liver_WT_BTBR.csv', header = TRUE, sep = ",")
 #Plasma_LipidData = read.csv('../Normalization/Final_Plasma/Plasma_WT_BTBR.csv', header = TRUE, sep = ",")
 SCN_LipidData = read.csv(args[1], header = TRUE, sep = ",")
 Liver_LipidData = read.csv(args[2], header = TRUE, sep = ",")
 Plasma_LipidData = read.csv(args[3], header = TRUE, sep = ",")
 
+dat <- SCN_LipidData[,2:9]
+scaled <- scale(t(log2dat))
+scaled.dat <- t(scaled)
+
 # Get FC
 
-SCN_Ctrl <- SCN_LipidData[, 2:5]
-SCN_HF <- SCN_LipidData[, 6:9]
+SCN_Ctrl <- scaled.dat[, 1:4]
+SCN_HF <- scaled.dat[, 5:8]
 Liver_Ctrl <- Liver_LipidData[, 2:5]
 Liver_HF <- Liver_LipidData[, 6:9]
 Plasma_Ctrl <- Plasma_LipidData[,  2:5]
@@ -48,7 +51,6 @@ Plasma_HF <- Plasma_LipidData[, 6:9]
 mean.ctrl.SCN <- rowMeans(SCN_Ctrl)
 mean.hf.SCN <- rowMeans(SCN_HF)
 SCN_FC <- mean.hf.SCN/mean.ctrl.SCN
-log_SCN_FC <- data.frame(log2(SCN_FC))
 
 mean.ctrl.Liver <- rowMeans(Liver_Ctrl)
 mean.hf.Liver <- rowMeans(Liver_HF)
