@@ -39,7 +39,7 @@ write.csv(corr_data, outname1, row.names=FALSE)
 write.csv(p_data, outname2, row.names=FALSE)
 
 tiff(outname3)
-corrplot(cormat, method="color", tl.col = "white", order ="hclust", hclust.method = "ward.D2")
+corrplot(cormat, method="color", tl.col = "black", order ="hclust", hclust.method = "ward.D2")
 dev.off()
 # Remove NaN
 #noNan <- function(d=data) d[apply(d, 1, function(x) any(!is.nan(x))),]
