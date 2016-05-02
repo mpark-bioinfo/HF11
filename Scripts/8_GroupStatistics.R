@@ -75,7 +75,7 @@ ggplot(Grouped.logFC, aes(x = Class, y = N, fill=factor(Class))) +
   geom_bar(stat = "identity", show.legend = FALSE) + 
   xlab("Lipid Class") + ylab("Number of Lipids") +
   scale_x_discrete("Class") +
-  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme_bw() + scale_y_continuous(limits = c(0, 70)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1));
 dev.off()
 
