@@ -4,12 +4,12 @@
 # Command: Rscript <filename> <outdir>
 # Input: "_.csv"
 # Process: Grouping by strains
-# Output: "Strain.csv"
+# Output: "groupedFC.csv"
 
 #install.packages('plyr')
 #install.packages('ggplot2')
 #install.packages('gridExtra')
-
+#install.packages('reshape2')
 library(plyr)
 library(ggplot2)
 library(gridExtra)
@@ -19,7 +19,7 @@ args = commandArgs(TRUE)
 print(args[1])
 
 df = read.csv(args[1], header = TRUE, sep = ",")
-#df = read.csv('../Normalization/Final_SCN/SCN_db_BKS.csv', header = TRUE, sep = ",")
+#df = read.csv('../Normalization/Final_SCN/SCN_WT_BL6.csv', header = TRUE, sep = ",")
 
 # Get Group FC
 # Separate lipid class
@@ -31,9 +31,9 @@ LipidData <- data.frame('Class'=lipid.name.class, df[, 2:9])
 # Grouping by class
 NumCtl <- 4
 NumCase <- 4
-df <- as.matrix(LipidData[,2:9])
-data.ctrl <- df[, 1: NumCtl]
-data.case <- df[, (NumCtl+1) : (NumCtl+NumCase)]
+new_df <- as.matrix(LipidData[,2:9])
+data.ctrl <- new_df[, 1: NumCtl]
+data.case <- new_df[, (NumCtl+1) : (NumCtl+NumCase)]
 # Control
 ctrl.df <- data.frame('Class'=LipidData$Class, data.ctrl)
 ctrl.melted <- melt(ctrl.df, id.vars="Class")
@@ -84,10 +84,9 @@ ggplot(Grouped.logFC, aes(x = Class, y = logFC, fill=factor(Class))) +
   geom_bar(stat = "identity", show.legend = FALSE) + 
   xlab("Lipid Class") + ylab("log2 Fold-change") +
   scale_x_discrete("Class") +
-  theme_bw() + scale_y_continuous(limits = c(-0.5, 0.5)) +
+  theme_bw() + scale_y_continuous(limits = c(-1.5, 1.5)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1));
 
-   
 dev.off()
 
 
