@@ -1,13 +1,16 @@
 #install.packages('ggplot2')
 #install.packages('corrplot')
 #install.packages('Hmisc')
+install.packages('IDPmisc')
+install.packages('functional')
+library(functional)
 #setwd("~/Documents/Lipidomics_Analysis/HF11/Scripts")
 
 library(ggplot2)
 library(reshape2)
 library(corrplot)
 library(Hmisc)
-
+require(IDPmisc)
 args = commandArgs(TRUE)
 print(args[1])
 
@@ -16,7 +19,7 @@ LipidData = read.csv(args[1], header = TRUE,row.names=1)
 transposed <- t(LipidData)
 
 # Compute correlation table
-cor_cov_dat <- rcorr(as.matrix(transposed), type="pearson")
+cor_cov_dat <- rcorr(as.matrix(transposed), type="pearson") 
 corr_data <- data.frame(cor_cov_dat$r)
 cormat <- as.matrix(data.frame(cor_cov_dat$r))
 pmat <- as.matrix(data.frame(cor_cov_dat$P))
@@ -32,6 +35,24 @@ outname3 <- paste(args[2],filename1,'.tiff',sep = "")
 write.csv(corr_data, outname1, row.names=FALSE)
 write.csv(p_data, outname2, row.names=FALSE)
 
+# Remove NaN
+#noNan <- function(d=data) d[apply(d, 1, function(x) any(!is.nan(x))),]
+#new_data1 <- noNan(cormat)
+
+#new_cormat <- cormat[apply(cormat, 1, function(x) any(!is.nan(x))),]
+
+# Ward Hierarchical Clustering
+#hclustfunc <- function(x, method = "ward.D2", dmeth = "euclidean") {    
+#  hclust(dist(x, method = dmeth), method = method)
+#}
+#ind <- !(complete.cases(cormat) != is.nan(cormat))
+#fit <- hclustfunc(new_cormat)
+#plot(fit) # display dendogram
+#groups <- cutree(fit, k=5) # cut tree into 5 clusters
+# draw dendogram with red borders around the 5 clusters
+#rect.hclust(fit, k=5, border="red") 
+
+
 tiff(outname3)
-corrplot(cormat, method="color", tl.col = "white")
+corrplot(cormat, method="color", tl.col = "white", order ="hclust", hclust.method = "ward")
 dev.off()
