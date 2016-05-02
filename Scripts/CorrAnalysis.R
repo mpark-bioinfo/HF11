@@ -1,8 +1,8 @@
 #install.packages('ggplot2')
 #install.packages('corrplot')
 #install.packages('Hmisc')
-install.packages('IDPmisc')
-install.packages('functional')
+#install.packages('IDPmisc')
+#install.packages('functional')
 library(functional)
 #setwd("~/Documents/Lipidomics_Analysis/HF11/Scripts")
 
@@ -15,8 +15,9 @@ args = commandArgs(TRUE)
 print(args[1])
 
 #LipidData = read.csv('../Normalization/Final_Plasma/Plasma_WT_BL6.csv', header = TRUE,row.names=1)
-LipidData = read.csv(args[1], header = TRUE,row.names=1)
-transposed <- t(LipidData)
+LipidData = read.csv(args[1], header = TRUE, row.names=1)
+new_LipidData <- LipidData[!row.names(LipidData)%in% c("PC 36_4","PI 38_4"),]
+transposed <- t(new_LipidData)
 
 # Compute correlation table
 cor_cov_dat <- rcorr(as.matrix(transposed), type="pearson") 
@@ -24,6 +25,8 @@ corr_data <- data.frame(cor_cov_dat$r)
 cormat <- as.matrix(data.frame(cor_cov_dat$r))
 pmat <- as.matrix(data.frame(cor_cov_dat$P))
 p_data <- data.frame(cor_cov_dat$P)
+
+
 # Output file name
 name_temp <-  strsplit(args[1], "/")
 tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
@@ -35,6 +38,9 @@ outname3 <- paste(args[2],filename1,'.tiff',sep = "")
 write.csv(corr_data, outname1, row.names=FALSE)
 write.csv(p_data, outname2, row.names=FALSE)
 
+tiff(outname3)
+corrplot(cormat, method="color", tl.col = "white", order ="hclust", hclust.method = "ward.D2")
+dev.off()
 # Remove NaN
 #noNan <- function(d=data) d[apply(d, 1, function(x) any(!is.nan(x))),]
 #new_data1 <- noNan(cormat)
@@ -53,6 +59,4 @@ write.csv(p_data, outname2, row.names=FALSE)
 #rect.hclust(fit, k=5, border="red") 
 
 
-tiff(outname3)
-corrplot(cormat, method="color", tl.col = "white", order ="hclust", hclust.method = "ward")
-dev.off()
+
