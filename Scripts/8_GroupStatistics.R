@@ -72,7 +72,10 @@ write.csv(Grouped.logFC, paste(filename1,'_groupedFC.csv',sep = ""), row.names=F
 tiff(paste(filename1,'_N.tiff',sep = ""))
 # Number of lipids
 ggplot(Grouped.logFC, aes(x = Class, y = N, fill=factor(Class))) +
-  geom_bar(stat = "identity", show.legend = FALSE) + 
+  geom_bar(aes(fill=Class),   # fill depends on cond2
+           stat="identity",
+           colour="black",    # Black outline for all
+           show.legend = FALSE) + 
   xlab("Lipid Class") + ylab("Number of Lipids") +
   scale_x_discrete("Class") +
   theme_bw() + scale_y_continuous(limits = c(0, 70)) +
@@ -81,10 +84,13 @@ dev.off()
 
 tiff(paste(filename1,'_FC.tiff',sep = ""))
 ggplot(Grouped.logFC, aes(x = Class, y = logFC, fill=factor(Class))) +
-  geom_bar(stat = "identity", show.legend = FALSE) + 
+  geom_bar(aes(fill=Class),   # fill depends on cond2
+           stat="identity",
+           colour="black",    # Black outline for all
+           show.legend = FALSE) + 
   xlab("Lipid Class") + ylab("log2 Fold-change") +
   scale_x_discrete("Class") +
-  theme_bw() + scale_y_continuous(limits = c(-1.5, 1.5)) +
+  theme_bw() + scale_y_continuous(limits = c(-1, 1.5)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1));
 
 dev.off()
