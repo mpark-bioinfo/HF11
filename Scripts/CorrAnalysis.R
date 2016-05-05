@@ -3,20 +3,23 @@
 #install.packages('Hmisc')
 #install.packages('IDPmisc')
 #install.packages('functional')
-library(functional)
+#install.packages('pheatmap')
+install.packages('IDPmisc')
 #setwd("~/Documents/Lipidomics_Analysis/HF11/Scripts")
-
+library(functional)
+library(pheatmap)
 library(ggplot2)
 library(reshape2)
 library(corrplot)
 library(Hmisc)
 require(IDPmisc)
-args = commandArgs(TRUE)
-print(args[1])
 
-#LipidData = read.csv('../Normalization/Final_Plasma/Plasma_WT_BL6.csv', header = TRUE,row.names=1)
-LipidData = read.csv(args[1], header = TRUE, row.names=1)
-new_LipidData <- LipidData[!row.names(LipidData)%in% c("PC 36_4","PI 38_4"),]
+#args = commandArgs(TRUE)
+#print(args[1])
+
+LipidData = read.csv('../Normalization/Final_SCN/SCN_WT_BL6.csv', header = TRUE,row.names=1)
+#LipidData = read.csv(args[1], header = TRUE, row.names=1)
+new_LipidData <- LipidData[!row.names(LipidData) %in% c("PC 36_4","PI 38_4"),]
 transposed <- t(new_LipidData)
 
 # Compute correlation table
@@ -35,7 +38,7 @@ filename1 <- paste(tissue_name[[1]][1],tissue_name[[1]][2],tissue_name[[1]][3],'
 outname1 <- paste(args[2],filename1,'_r.csv',sep = "")
 outname2 <- paste(args[2],filename1,'_p.csv',sep = "")
 outname3 <- paste(args[2],filename1,'.tiff',sep = "")
-write.csv(corr_data, outname1, row.names=FALSE)
+write.csv(corr_data, 'corr_data.csv', row.names=FALSE)
 write.csv(p_data, outname2, row.names=FALSE)
 
 tiff(outname3)
