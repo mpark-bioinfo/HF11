@@ -14,7 +14,7 @@ print(args[1])
 
 #LipidData = read.csv('../Normalization/SCNPos_CV30.csv', header = TRUE, sep = ",")
 LipidData = read.csv(args[1], header = TRUE, sep = ",")
-sampleIntensity <- LipidData[,2:49]
+sampleIntensity <- LipidData[,2:49] #sample intensity
 qcIntensityData <- LipidData[50:length(LipidData)]
 
 #sampleInfo <- read.csv('SCN_SampleInfo.csv', header = TRUE, sep = ",")
