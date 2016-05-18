@@ -3,18 +3,19 @@
 # Meeyoung Park, 04/07/2016
 # Command: Rscript <filename> <outdir>
 # Input: "_imputed.csv"
+# arguments: cut-off, input_file, output_dir
 # Process: Extract >= CV cutoff
 # Output: "_CV.csv"
 #library(dply)
 
 args = commandArgs(TRUE)
-print(args[1])
+print(args[2])
 
 # Define CV function
-cutoff <- 30
+cutoff <- args[1]
 
 # Read input file
-lipid_data = read.csv(args[1], header = TRUE, sep = ",")
+lipid_data = read.csv(args[2], header = TRUE, sep = ",")
 #lipid_data = read.csv("../Normalization/SCNPos/SCNPos_imputed.csv", header = TRUE, sep = ",")
 
 # Exclude internal standards
@@ -51,5 +52,5 @@ print(dim(FinalLipidData));
 name_temp <-  strsplit(args[1], "/");
 tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") ;#Check the position of file name
 tissue_name <- strsplit(tmp[[1]][1], "\\_");
-new_out <- paste(args[2], tissue_name[[1]][1],"_CV30.csv", sep="");
+new_out <- paste(args[3], tissue_name[[1]][1],"_CV",args[1], ".csv", sep="");
 write.csv(FinalLipidData, new_out, row.names=FALSE)

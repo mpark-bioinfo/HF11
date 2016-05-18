@@ -4,7 +4,7 @@
 # Command: Rscript <filename> <Outdir>
 # Input: _Lipid.csv (First column should be "Lipid" species: class + carbon chain info (TG 41:2))
 # Process: Check if there are redundant lipids in the file
-# Output: Removing all redundant lipids: "*_nonRedundant.txt"
+# Output: Removing all redundant lipids: "*_nonRedundant.csv"
 
 args = commandArgs(TRUE)
 print(args[1])

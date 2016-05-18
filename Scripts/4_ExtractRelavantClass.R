@@ -5,10 +5,11 @@
 # Input: "_nonRedundant.csv"
 # Process: Check if there are non-relavant lipid class from each polar
 #         and combine pos & neg lipids in a file
-# Output: Remaining all relevant lipid class: "*_relevantClass.txt"
+# Output: Remaining all relevant lipid class: "*_relevantClass.csv"
 
 args = commandArgs(TRUE)
 print(args[1])
+
 # Read data file
 positiveLipid <- data.frame()
 negativeLipid <- data.frame()
@@ -18,13 +19,13 @@ negativeLipid = read.csv(args[2], header = TRUE, sep = ",")
 posLipidInfo <- data.frame(t(as.data.frame(strsplit(as.character(positiveLipid$Lipid), " "))))
 colnames(posLipidInfo) <- c("Lipid_Class", "Carbon_Chain")
 posCarbonInfo <- t(as.data.frame(strsplit(as.character(posLipidInfo$Carbon_Chain), ":")));
-colnames(posCarbonInfo) <- c("Carbon", "Chain")
+colnames(posCarbonInfo) <- c("Carbon", "Double_bond")
 pos_separatedData <- data.frame('Class'=posLipidInfo$Lipid_Class, posCarbonInfo, positiveLipid[,2:length(positiveLipid)])
 
 negLipidInfo <- data.frame(t(as.data.frame(strsplit(as.character(negativeLipid$Lipid), " "))))
 colnames(negLipidInfo) <- c("Lipid_Class", "Carbon_Chain")
 negCarbonInfo <- t(as.data.frame(strsplit(as.character(negLipidInfo$Carbon_Chain), ":")));
-colnames(negCarbonInfo) <- c("Carbon", "Chain")
+colnames(negCarbonInfo) <- c("Carbon", "Double_bond")
 neg_separatedData <- data.frame('Class'=negLipidInfo$Lipid_Class, negCarbonInfo, negativeLipid[,2:length(negativeLipid)])
 
 # Positive class:  

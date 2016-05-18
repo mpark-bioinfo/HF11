@@ -9,6 +9,7 @@
 # Grouping by strains
 args = commandArgs(TRUE)
 print(args[1])
+
 NewLipidData = read.csv(args[1], header = TRUE, sep = ",")
 #LipidData = read.csv('../Normalization/SCN_Final.csv', header = TRUE, sep = ",")
 # Output file name
@@ -16,7 +17,7 @@ name_temp <-  strsplit(args[1], "/")
 tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
 tissue_name <- strsplit(tmp[[1]][1], "\\_")
 
-Lipid_Info <- data.frame(paste(NewLipidData$Class, paste(NewLipidData$Carbon, "_", NewLipidData$Chain, sep="")))
+Lipid_Info <- data.frame(paste(NewLipidData$Class, paste(NewLipidData$Carbon, "_", NewLipidData$Double_bond, sep="")))
 colnames(Lipid_Info) <- "Sample"
 
 # BKS WT

@@ -1,0 +1,3 @@
+Rscript 4_ExtractRelavantClass.R ../FinalResults_051716/SCNPos_nonRedundant.csv ../FinalResults_051716/SCNNeg_nonRedundant.csv ../FinalResults_051716/SCN
+Rscript 4_ExtractRelavantClass.R ../FinalResults_051716/LiverPos_nonRedundant.csv ../FinalResults_051716/LiverNeg_nonRedundant.csv ../FinalResults_051716/Liver
+Rscript 4_ExtractRelavantClass.R ../FinalResults_051716/PlasmaPos_nonRedundant.csv ../FinalResults_051716/PlasmaNeg_nonRedundant.csv ../FinalResults_051716/Plasma
