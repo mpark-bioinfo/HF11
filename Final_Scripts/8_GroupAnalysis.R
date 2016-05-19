@@ -10,17 +10,21 @@
 #install.packages('ggplot2')
 #install.packages('gridExtra')
 #install.packages('reshape2')
-library(plyr)
-library(ggplot2)
-library(gridExtra)
-library(reshape2)
+#library(plyr)
+#library(ggplot2)
+#library(gridExtra)
+#library(reshape2)
 
 # Grouping by strains
 args = commandArgs(TRUE)
 print(args[1])
-
+# Output file name
+name_temp <-  strsplit(args[1], "/")
+tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the position of file name
+tissue_name <- strsplit(tmp[[1]][1], "\\_")
+filename1 <- paste(tissue_name[[1]][1],tissue_name[[1]][2],tissue_name[[1]][3], sep="_")
 Grouped.Info = read.csv(args[1], header = TRUE, sep = ",")
-#df = read.csv('../Final_Analysis_050516_Incorrect/Final_SCN/SCN_WT_BL6.csv', header = TRUE, sep = ",")
+#Grouped.Info = read.csv('../FinalResults_051716/Plot/SCN_WT_BKS_groupedInfo.csv', header = TRUE, sep = ",")
 
 # CE check (Manually?  Need to modify for automatic process)
 check <- ((Grouped.Info$Class == "CE") == FALSE)
