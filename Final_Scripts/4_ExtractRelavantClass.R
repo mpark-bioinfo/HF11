@@ -28,7 +28,7 @@ negCarbonInfo <- t(as.data.frame(strsplit(as.character(negLipidInfo$Carbon_Chain
 colnames(negCarbonInfo) <- c("Carbon", "Double_bond")
 neg_separatedData <- data.frame('Class'=negLipidInfo$Lipid_Class, negCarbonInfo, negativeLipid[,2:length(negativeLipid)])
 
-# Positive class:  
+# Relevant class:  
 posClass <- c('CE','DG','lysoPC','lysoPE','MG','PC','PE','plasmenylPC','plasmenylPE','SM','TG')
 negClass <- c('CerP', 'CL', 'PA', 'PG', 'PI','PS')
 

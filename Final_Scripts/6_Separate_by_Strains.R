@@ -4,7 +4,7 @@
 # Command: Rscript <filename> <outdir>
 # Input: "_Final.csv"
 # Process: Grouping by strains
-# Output: "Strain.csv"
+# Output: "each strain.csv"
 
 # Grouping by strains
 args = commandArgs(TRUE)
@@ -18,7 +18,7 @@ tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") #Check the positi
 tissue_name <- strsplit(tmp[[1]][1], "\\_")
 
 Lipid_Info <- data.frame(paste(NewLipidData$Class, paste(NewLipidData$Carbon, "_", NewLipidData$Double_bond, sep="")))
-colnames(Lipid_Info) <- "Sample"
+colnames(Lipid_Info) <- "Lipid"
 
 # BKS WT
 Ctrl_BKS <- NewLipidData[, c('Ctrl_BKS_2202', 'Ctrl_BKS_2203', 'Ctrl_BKS_2206', 'Ctrl_BKS_2211')]
