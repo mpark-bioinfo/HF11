@@ -4,7 +4,7 @@
 #install.packages('IDPmisc')
 #install.packages('functional')
 #install.packages('pheatmap')
-install.packages('IDPmisc')
+#install.packages('IDPmisc')
 #setwd("~/Documents/Lipidomics_Analysis/HF11/Scripts")
 library(functional)
 library(pheatmap)
@@ -14,13 +14,13 @@ library(corrplot)
 library(Hmisc)
 require(IDPmisc)
 
-#args = commandArgs(TRUE)
-#print(args[1])
+args = commandArgs(TRUE)
+print(args[1])
 
-LipidData = read.csv('../Normalization/Final_SCN/SCN_WT_BL6.csv', header = TRUE,row.names=1)
-#LipidData = read.csv(args[1], header = TRUE, row.names=1)
-new_LipidData <- LipidData[!row.names(LipidData) %in% c("PC 36_4","PI 38_4"),]
-transposed <- t(new_LipidData)
+#LipidData = read.csv('../Normalization/Final_Plasma/Plasma_WT_BL6.csv', header = TRUE,row.names=1)
+LipidData = read.csv(args[1], header = TRUE, row.names=1)
+#new_LipidData <- LipidData[!row.names(LipidData) %in% c("PC 36_4","PI 38_4"),]
+transposed <- t(LipidData)
 
 # Compute correlation table
 cor_cov_dat <- rcorr(as.matrix(transposed), type="pearson") 

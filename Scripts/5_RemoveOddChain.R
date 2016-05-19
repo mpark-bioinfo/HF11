@@ -6,13 +6,13 @@
 # Input: _Class.csv
 # First three columnd should be "lipid class, carbon chain, double bond" info (TG 41 2)
 # Process: Remove odd carbon chain
-# Output: Only even double bond lipids: "*_noOdd.txt"
+# Output: Only even double bond lipids: "*_Final.csv"
 
 args = commandArgs(TRUE)
 print(args[1])
 # Read data file
 LipidData = read.csv(args[1], header = TRUE, sep = ",")
-even_chain_idx <- which((LipidData$Chain %%2) == 0)
+even_chain_idx <- which((LipidData$Carbon %%2) == 0)
 new_LipidData <- LipidData[even_chain_idx,]
 #dim(new_LipidData)
 
