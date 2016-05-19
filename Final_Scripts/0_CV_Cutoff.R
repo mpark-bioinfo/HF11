@@ -49,7 +49,7 @@ CV30_idx <- which((as.numeric(RSD$CV) <= cutoff) == TRUE);
 FinalLipidData <- LipidData[CV30_idx,];
 print(dim(FinalLipidData));
 # Output file name
-name_temp <-  strsplit(args[1], "/");
+name_temp <-  strsplit(args[2], "/");
 tmp <- strsplit(name_temp[[1]][length(name_temp[[1]])], "\\.") ;#Check the position of file name
 tissue_name <- strsplit(tmp[[1]][1], "\\_");
 new_out <- paste(args[3], tissue_name[[1]][1],"_CV",args[1], ".csv", sep="");

@@ -5,11 +5,7 @@
 # Input: "_nonRedundant.csv"
 # Process: Check if there are non-relavant lipid class from each polar
 #         and combine pos & neg lipids in a file
-<<<<<<< HEAD
 # Output: Remaining all relevant lipid class: "*_combined.csv"
-=======
-# Output: Remaining all relevant lipid class: "*_relevantClass.csv"
->>>>>>> 6a9203dfe1d39e001ea338d2c1ec3d898b42a103
 
 args = commandArgs(TRUE)
 print(args[1])
