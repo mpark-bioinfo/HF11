@@ -12,24 +12,25 @@ library(ggplot2)
 library(reshape2)
 library(corrplot)
 library(Hmisc)
-require(IDPmisc)
+library(IDPmisc)
 
 args = commandArgs(TRUE)
 print(args[1])
 
-#LipidData = read.csv('../Normalization/Final_Liver/Liver_WT_BKS.csv', header = TRUE,row.names=1)
+#LipidData = read.csv('../FinalResults_051716/Final_Plasma/Plasma_db_BTBR.csv', header = TRUE,row.names=1)
 LipidData = read.csv(args[1], header = TRUE, row.names=1)
 ind <- apply(LipidData, 1, var) == 0
 new_LipidData <- LipidData[!ind,]
 transposed <- t(new_LipidData)
 
-# Compute correlation table
-cor_cov_dat <- rcorr(as.matrix(transposed), type="pearson") 
+log2.df <- log2(transposed)
+scaled.df <- scale(log2.df, center = TRUE, scale = TRUE)
+
+cor_cov_dat <- rcorr(as.matrix(scaled.df), type="spearman")
 corr_data <- data.frame(cor_cov_dat$r)
 cormat <- as.matrix(data.frame(cor_cov_dat$r))
 pmat <- as.matrix(data.frame(cor_cov_dat$P))
 p_data <- data.frame(cor_cov_dat$P)
-
 
 # Output file name
 name_temp <-  strsplit(args[1], "/")
@@ -39,8 +40,8 @@ filename1 <- paste(tissue_name[[1]][1],tissue_name[[1]][2],tissue_name[[1]][3],'
 outname1 <- paste(args[2],filename1,'_r.csv',sep = "")
 outname2 <- paste(args[2],filename1,'_p.csv',sep = "")
 outname3 <- paste(args[2],filename1,'.tiff',sep = "")
-write.csv(corr_data, outname1, row.names=TRUE)
-write.csv(p_data, outname2, row.names=TRUE)
+write.csv(corr_data, "corr1.csv", row.names=TRUE, na="NA")
+write.csv(p_data, outname2, row.names=TRUE, na="NA")
 
 tiff(outname3)
 corrplot(cormat, method="color", tl.col = "white", order ="hclust", hclust.method = "ward.D2", addrect=3)
