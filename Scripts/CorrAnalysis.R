@@ -17,10 +17,11 @@ require(IDPmisc)
 args = commandArgs(TRUE)
 print(args[1])
 
-#LipidData = read.csv('../Normalization/Final_Plasma/Plasma_WT_BL6.csv', header = TRUE,row.names=1)
+#LipidData = read.csv('../Normalization/Final_Liver/Liver_WT_BKS.csv', header = TRUE,row.names=1)
 LipidData = read.csv(args[1], header = TRUE, row.names=1)
-#new_LipidData <- LipidData[!row.names(LipidData) %in% c("PC 36_4","PI 38_4"),]
-transposed <- t(LipidData)
+ind <- apply(LipidData, 1, var) == 0
+new_LipidData <- LipidData[!ind,]
+transposed <- t(new_LipidData)
 
 # Compute correlation table
 cor_cov_dat <- rcorr(as.matrix(transposed), type="pearson") 
@@ -38,8 +39,8 @@ filename1 <- paste(tissue_name[[1]][1],tissue_name[[1]][2],tissue_name[[1]][3],'
 outname1 <- paste(args[2],filename1,'_r.csv',sep = "")
 outname2 <- paste(args[2],filename1,'_p.csv',sep = "")
 outname3 <- paste(args[2],filename1,'.tiff',sep = "")
-write.csv(corr_data, 'corr_data.csv', row.names=FALSE)
-write.csv(p_data, outname2, row.names=FALSE)
+write.csv(corr_data, outname1, row.names=TRUE)
+write.csv(p_data, outname2, row.names=TRUE)
 
 tiff(outname3)
 corrplot(cormat, method="color", tl.col = "white", order ="hclust", hclust.method = "ward.D2", addrect=3)
