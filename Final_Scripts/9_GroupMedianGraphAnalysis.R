@@ -12,12 +12,12 @@
 #install.packages('ggplot2')
 #install.packages('gridExtra')
 #install.packages('reshape2')
-#install.packages('matrixStats')
+#install.packages('miscTools')
 library(plyr)
 library(ggplot2)
 library(gridExtra)
 library(reshape2)
-library(matrixStats)
+library(miscTools)
 
 # Grouping by strains
 args = commandArgs(TRUE)
@@ -30,7 +30,7 @@ tissue_name <- strsplit(tmp[[1]][1], "\\_")
 filename1 <- paste(tissue_name[[1]][1],tissue_name[[1]][2],tissue_name[[1]][3], sep="_")
 
 df = read.csv(args[1], header = TRUE, sep = ",")
-#df = read.csv('../FinalResults_051716/Final_SCN/SCN_WT_BL6.csv', header = TRUE, sep = ",")
+#df = read.csv('../FinalResults_051716/Final_Plasma/Plasma_db_BKS.csv', header = TRUE, sep = ",")
 
 # Separate lipid class
 lipid.name <- t(as.data.frame(strsplit(as.character(df$Lipid), " ")));
@@ -40,31 +40,31 @@ lipid.name.carbon <- data.frame('Carbon'=lipid.name[,2])
 LipidData <- data.frame('Class'=lipid.name.class, 'Carbon'=lipid.name.carbon, df[, 2:length(df)])
 
 #
-check1 <- ((LipidData$Class == "CE") == TRUE)
-check2 <- ((LipidData$Class == "CerP") == TRUE)
-if ((check1[1] == FALSE) & (check2[1] == FALSE))
-{
+#check1 <- ((LipidData$Class == "CE") == TRUE)
+#check2 <- ((LipidData$Class == "CerP") == TRUE)
+#if ((check1[1] == FALSE) & (check2[1] == FALSE))
+#{
   newrow1 <- data.frame("CE", "1_1", 1,1,1,1,1,1,1,1)
   newrow2 <- data.frame("CerP", "1_1", 1,1,1,1,1,1,1,1)
   colnames(newrow1) <- colnames(LipidData)
   colnames(newrow2) <- colnames(LipidData)
   newGroup.df = rbind(newrow1, newrow2, LipidData)
   
-} else
-{
-  newGroup.df = LipidData
-}
+#} else
+#{
+#newGroup.df = LipidData
+#}
 
 # Grouping by class
 NumCtl <- 4
 NumCase <- 4
-new.df <- as.matrix(newGroup.df[,3:length(df)])
-data.ctrl <- newGroup.df[, 1: NumCtl]
-data.case <- newGroup.df[, (NumCtl+1) : (NumCtl+NumCase)]
+new.df <- as.matrix(newGroup.df[,3:length(newGroup.df)])
+data.ctrl <- new.df[, 1: NumCtl]
+data.case <- new.df[, (NumCtl+1) : (NumCtl+NumCase)]
 
 # Median of each row (mean of replicates)
-RowM.ctrl <- rowMedians(data.ctrl, na.rm = FALSE, dims = 1)
-RowM.case <- rowMedians(data.case, na.rm = FALSE, dims = 1)
+RowM.ctrl <- rowMedians(data.ctrl, na.rm = FALSE)
+RowM.case <- rowMedians(data.case, na.rm = FALSE)
 median.df <- data.frame('Class'=newGroup.df$Class, 'Carbon'=newGroup.df$Carbon, "Ctrl_Median" = RowM.ctrl, "Case_Median"= RowM.case)
 
 # Control
@@ -78,7 +78,7 @@ ctrl.grouped <- ddply(ctrl.melted, "Class", summarise,
                       SE   = SD / sqrt(N)
 )
 
-tiff(paste(filename1,'_CtrlMedian.tiff',sep = ""))
+tiff(paste(args[2],filename1,'_CtrlMedian.tiff',sep = ""))
 ggplot(ctrl.grouped, aes(x = Class, y = log2(SUM), fill=factor(Class))) +
   geom_bar(aes(fill=Class),   # fill depends on cond2
            stat="identity",
@@ -103,7 +103,7 @@ case.grouped <- ddply(case.melted, "Class", summarise,
 )
 
 
-tiff(paste(filename1,'_CaseMedian.tiff',sep = ""))
+tiff(paste(args[2],filename1,'_CaseMedian.tiff',sep = ""))
 ggplot(case.grouped, aes(x = Class, y = log2(SUM), fill=factor(Class))) +
   geom_bar(aes(fill=Class),   # fill depends on cond2
            stat="identity",
@@ -119,6 +119,19 @@ dev.off()
 raw.ratio <- case.grouped$SUM/ctrl.grouped$SUM
 log.ratio <- log2(raw.ratio)
 Grouped.Info <- data.frame('Class'=ctrl.grouped$Class,'N'=ctrl.grouped$N, 'Ctrl.Sum'=ctrl.grouped$SUM, 'Ctrl.Mean'=ctrl.grouped$Mean,'Ctrl.SD'=ctrl.grouped$SD, 'Ctrl.SE'=ctrl.grouped$SE,
-                           'Case.Sum'=case.grouped$SUM, 'Case.Mean'=case.grouped$Mean, 'Case.SD'=case.grouped$SD, 'Case.SE'=case.grouped$SE,'FC' = raw.ratio, 'log2(FC)'=log.ratio)
-write.csv(Grouped.Info, paste(args[2],filename1,'_groupedInfo.csv',sep = ""), row.names=FALSE)
+                           'Case.Sum'=case.grouped$SUM, 'Case.Mean'=case.grouped$Mean, 'Case.SD'=case.grouped$SD, 'Case.SE'=case.grouped$SE,'FC' = raw.ratio, 'log2FC'=log.ratio)
+write.csv(Grouped.Info, paste(args[2],filename1,'_groupedMedian.csv',sep = ""), row.names=FALSE)
+
+tiff(paste(args[2], filename1,'_logFC.tiff',sep = ""))
+# Number of lipids
+ggplot(Grouped.Info, aes(x = Class, y = log2FC, fill=factor(Class))) +
+  geom_bar(aes(fill=Class),   # fill depends on cond2
+           stat="identity",
+           colour="black",    # Black outline for all
+           show.legend = FALSE) + 
+  xlab("Lipid Class") + ylab("Fold-Change (HFD vs. Ctrl)") +
+  scale_x_discrete("Class") +
+  theme_bw() + scale_y_continuous(limits = c(-1.5, 1.5)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1));
+dev.off()
 
